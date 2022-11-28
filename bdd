@@ -1,0 +1,225 @@
+-- phpMyAdmin SQL Dump
+-- version 4.9.7
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:8889
+-- Generation Time: Nov 16, 2022 at 12:32 PM
+-- Server version: 5.7.32
+-- PHP Version: 8.0.0
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `bbd_netbouquet`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Categorie`
+--
+
+CREATE TABLE `Categorie` (
+  `id` char(2) NOT NULL,
+  `libelle` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Categorie`
+--
+
+INSERT INTO `Categorie` (`id`, `libelle`) VALUES
+('ba', 'bouquet accueil'),
+('bb', 'bouquet bureau'),
+('bf', 'bouquet fetes'),
+('pa', 'plantes artificielles'),
+('pv', 'plantes vertes');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Commande`
+--
+
+CREATE TABLE `Commande` (
+  `id` int(4) NOT NULL,
+  `dateCommande` date NOT NULL,
+  `loginUtilisateur` varchar(7) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Commande`
+--
+
+INSERT INTO `Commande` (`id`, `dateCommande`, `loginUtilisateur`) VALUES
+(1, '2020-09-02', 'Logitec'),
+(2, '2020-09-15', 'Peps'),
+(3, '2020-09-15', 'Logitec'),
+(4, '2020-09-30', 'Peps'),
+(7, '2020-10-05', 'Peps'),
+(8, '2022-11-16', 'client');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Contenir`
+--
+
+CREATE TABLE `Contenir` (
+  `idCommande` int(4) NOT NULL,
+  `idProduit` int(3) NOT NULL,
+  `qte` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Contenir`
+--
+
+INSERT INTO `Contenir` (`idCommande`, `idProduit`, `qte`) VALUES
+(1, 1, 1),
+(1, 2, 1),
+(2, 5, 3),
+(3, 1, 2),
+(8, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Produit`
+--
+
+CREATE TABLE `Produit` (
+  `id` int(3) NOT NULL,
+  `nom` varchar(32) NOT NULL,
+  `image` varchar(32) NOT NULL,
+  `description` varchar(128) NOT NULL,
+  `prix` float NOT NULL,
+  `idCategorie` char(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `Produit`
+--
+
+INSERT INTO `Produit` (`id`, `nom`, `image`, `description`, `prix`, `idCategorie`) VALUES
+(1, 'Blanc', 'accueilblanc.jpg', 'Fleurs blanches dans un panier en osier', 34, 'ba'),
+(2, 'Exotica', 'accueilhaute.jpg', 'Fleurs exotiques en hauteur', 35, 'ba'),
+(3, 'Tradition', 'accueilpanier.jpg', 'Bouquet traditionnel', 28, 'ba'),
+(4, 'Arbuste', 'artifarbre.jpg', 'Plante artificielle arbuste', 155, 'pa'),
+(5, 'Japon', 'artifjaponais.jpg', 'Plante style japonais', 210, 'pa'),
+(6, 'Palmier', 'artifpalmier.jpg', 'Palmier 2m50', 240, 'pa'),
+(7, 'Jaune', 'bouquetjaune.jpg', 'Tout en fleurs jaunes', 25, 'bb'),
+(8, 'Prune', 'bouquetprune.jpg', 'Fleurs prunes', 29, 'bb'),
+(9, 'Fete', 'fetecentretable.jpg', 'Pour d?corer une table', 45, 'bf'),
+(10, 'Noel', 'fetenoel.jpg', 'Couronne de Noel', 42, 'bf'),
+(11, 'Printemps', 'feteoffrir.jpg', 'Fleurs roses et blanches', 32, 'bb'),
+(12, 'Mixte', 'bouquetmixte.jpg', 'Fleurs mixtes', 32, 'bb'),
+(13, 'Ficus', 'planteficus.jpg', 'Ficus 1m50', 130, 'pv'),
+(14, 'Plante', 'plantefleurie.jpg', 'Plante et fleurs', 68, 'pv'),
+(15, 'Variation', 'plantemixte.jpg', 'Plante et fleurs', 64, 'pv'),
+(16, 'Orchi', 'planteorchi.jpg', 'Orchid', 55, 'pv');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Utilisateur`
+--
+
+CREATE TABLE `Utilisateur` (
+  `login` varchar(7) NOT NULL,
+  `nom` varchar(32) NOT NULL,
+  `adresse` varchar(64) DEFAULT NULL,
+  `cp` char(5) DEFAULT NULL,
+  `ville` varchar(32) DEFAULT NULL,
+  `tel` varchar(10) DEFAULT NULL,
+  `mail` varchar(32) DEFAULT NULL,
+  `mdp` varchar(7) NOT NULL,
+  `statut` varchar(6) NOT NULL DEFAULT 'client'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Utilisateur`
+--
+
+INSERT INTO `Utilisateur` (`login`, `nom`, `adresse`, `cp`, `ville`, `tel`, `mail`, `mdp`, `statut`) VALUES
+('admin', 'admin', NULL, NULL, NULL, NULL, NULL, 'admin', 'admin'),
+('client', 'client', NULL, NULL, NULL, NULL, NULL, 'client', 'client'),
+('Logitec', 'Logitec', '1 rue de Paris', '93000', 'Bobigny', '0140405050', NULL, '1234abc', 'client'),
+('Peps', 'Peps', '50 rue Berlioz', '93230', 'Romainville', '0611223344', 'peps@laposte.net', 'peps', 'client');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `Categorie`
+--
+ALTER TABLE `Categorie`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `Commande`
+--
+ALTER TABLE `Commande`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `loginUtilisateur` (`loginUtilisateur`);
+
+--
+-- Indexes for table `Contenir`
+--
+ALTER TABLE `Contenir`
+  ADD PRIMARY KEY (`idCommande`,`idProduit`),
+  ADD KEY `idBouquet` (`idProduit`);
+
+--
+-- Indexes for table `Produit`
+--
+ALTER TABLE `Produit`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCategorie` (`idCategorie`);
+
+--
+-- Indexes for table `Utilisateur`
+--
+ALTER TABLE `Utilisateur`
+  ADD PRIMARY KEY (`login`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `Commande`
+--
+ALTER TABLE `Commande`
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `Produit`
+--
+ALTER TABLE `Produit`
+  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `Commande`
+--
+ALTER TABLE `Commande`
+  ADD CONSTRAINT `commande_ibfk_1` FOREIGN KEY (`loginUtilisateur`) REFERENCES `Utilisateur` (`login`);
+
+--
+-- Constraints for table `Contenir`
+--
+ALTER TABLE `Contenir`
+  ADD CONSTRAINT `contenir_ibfk_1` FOREIGN KEY (`idCommande`) REFERENCES `Commande` (`id`),
+  ADD CONSTRAINT `contenir_ibfk_2` FOREIGN KEY (`idProduit`) REFERENCES `Produit` (`id`);
+
+--
+-- Constraints for table `Produit`
+--
+ALTER TABLE `Produit`
+  ADD CONSTRAINT `produit_ibfk_1` FOREIGN KEY (`idCategorie`) REFERENCES `Categorie` (`id`);
